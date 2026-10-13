@@ -1,0 +1,19 @@
+{% extends 'base.html' %}{% block content %}
+<section class="hero"><div><div class="eyebrow">MACHINE LEARNING PROJECT</div><h1>Understand your wine.<br><em>Predict its quality.</em></h1><p class="lead">Explore the dataset, run predictions, inspect model performance and understand which chemical properties matter most.</p><div class="hero-actions"><a class="btn primary" href="{{ url_for('module', module_id=3) }}">Try a random sample <span>↗</span></a><a class="btn secondary" href="{{ url_for('module', module_id=6) }}">View model results</a></div></div><div class="hero-art"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="wine-glass"><div class="wine-liquid"></div><div class="glass-stem"></div><div class="glass-base"></div></div><div class="floating-tag tag-top">Random Forest</div><div class="floating-tag tag-bottom">Quality classification</div></div></section>
+<section class="stats-grid"><article class="stat-card"><span class="stat-label">Dataset records</span><strong>{{ '{:,}'.format(info.rows) }}</strong><span class="stat-foot">after preprocessing</span></article><article class="stat-card"><span class="stat-label">Input features</span><strong>{{ features|length }}</strong><span class="stat-foot">numeric properties</span></article><article class="stat-card"><span class="stat-label">Quality classes</span><strong>{{ classes|length }}</strong><span class="stat-foot">target categories</span></article><article class="stat-card accent-card"><span class="stat-label">Test accuracy</span><strong>{{ '%.1f'|format(accuracy*100) }}<small>%</small></strong><span class="stat-foot">held-out test split</span></article></section>
+<section class="section-head"><div><div class="eyebrow">PROJECT WORKSPACE</div><h2>Choose a module</h2><p>All ten original project menu options are preserved here.</p></div><span class="section-count">09 MODULES <b>·</b> 01 EXIT</span></section>
+<section class="module-grid">
+{% set cards = [
+(1,'✳','Enter Wine Values Manually','Enter chemical properties and get a prediction.','Prediction'),
+(2,'⌕','Select a Sample from Dataset','Choose a row and compare actual vs predicted quality.','Prediction'),
+(3,'↻','Random Dataset Sample','Instantly test a randomly selected record.','Prediction'),
+(4,'▥','Wine Quality Distribution','Explore how many records belong to each class.','Dataset'),
+(5,'⇄','Test Model with Dataset Samples','Evaluate predictions across a sample batch.','Evaluation'),
+(6,'◎','Model Performance','Review accuracy, precision, recall, F1 and confusion matrix.','Evaluation'),
+(7,'✦','Feature Importance','Rank chemical properties by model importance.','Interpretability'),
+(8,'▤','Dataset Statistics','Inspect missing values, summaries and correlations.','Dataset'),
+(9,'⌗','Search Dataset by Quality','Find records for a specific quality label.','Dataset') ] %}
+{% for id, symbol, name, desc, category in cards %}<a class="module-card" href="{{ url_for('module', module_id=id) }}"><div class="card-top"><span class="module-symbol">{{ symbol }}</span><span class="category">{{ category }}</span></div><div class="module-number">MODULE {{ '%02d'|format(id) }}</div><h3>{{ name }}</h3><p>{{ desc }}</p><span class="card-arrow">Open module <b>↗</b></span></a>{% endfor %}
+</section>
+<section class="bottom-panel"><div><div class="eyebrow">MODEL SNAPSHOT</div><h2>One model. Multiple ways to explore.</h2><p>The website uses the same Random Forest model, preprocessing and prediction logic as the original command-line project.</p></div><div class="mini-bars">{% for item in class_counts %}<div class="mini-bar-row"><span>{{ item.label }}</span><div class="mini-track"><i style="width: {{ (item.count / (info.rows or 1) * 100)|round(1) }}%"></i></div><b>{{ item.count }}</b></div>{% endfor %}</div></section>
+{% endblock %}

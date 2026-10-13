@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ module_title if module_title is defined else title }} · Wine Quality</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="{{ url_for('index') }}"><span class="brand-icon">WQ</span><span>Wine Quality <small>Prediction System</small></span></a><span class="status"><i></i> ML system ready</span></header>
+<main class="shell">
+{% with messages = get_flashed_messages() %}{% if messages %}<div class="notice">{% for message in messages %}{{ message }}{% endfor %}</div>{% endif %}{% endwith %}
+{% block content %}{% endblock %}
+<footer>Wine Quality Prediction System · Random Forest Classification · Built with Flask and scikit-learn</footer>
+</main>
+</body></html>
