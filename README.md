@@ -1,167 +1,426 @@
-# Wine Quality Prediction System
+# 🍷 Wine Quality Prediction System
 
-A menu-driven Python CLI that trains a Random Forest classifier on the
-[Wine Quality (Balanced Classification)](https://www.kaggle.com/datasets/taweilo/wine-quality-dataset-balanced-classification)
-Kaggle dataset and lets you explore, predict, and evaluate it interactively.
+### Machine Learning Project | Binary & Multinomial Logistic Regression
 
-```
-============================================================
-          WINE QUALITY PREDICTION SYSTEM
-============================================================
+A Python-based Machine Learning application that analyzes the physicochemical properties of wine and predicts its quality using **Binary Logistic Regression** and **Multinomial Logistic Regression**.
 
-1. Enter Wine Values Manually
-2. Select a Sample from Dataset
-3. Random Dataset Sample
-4. View Wine Quality Distribution
-5. Test Model with Dataset Samples
-6. Model Performance
-7. Feature Importance
-8. Dataset Statistics
-9. Search Dataset by Quality
-10. Exit
-```
+The project combines data preprocessing, model training, performance evaluation, feature analysis, and an interactive command-line interface into one complete workflow.
 
-## Project structure
-
-```
-WineQualityPredictionSystem/
-├── bin/
-│   └── run.py              <- entry point: run THIS file
-├── src/
-│   ├── config.py            <- all paths & tunable constants in one place
-│   ├── ui.py                 <- colored terminal output / table printer
-│   ├── data_loader.py        <- finds & loads the CSV, detects target column
-│   ├── preprocessing.py      <- cleaning, encoding, train/test split, scaling
-│   ├── model.py               <- builds/trains/evaluates/saves the RandomForest
-│   ├── predictor.py           <- manual / sample / random / batch predictions
-│   ├── visualization.py       <- every matplotlib chart (saved to plots/)
-│   ├── statistics_module.py   <- dataset summary statistics
-│   ├── search.py               <- search dataset rows by quality value
-│   └── menu.py                 <- the interactive menu, wires everything together
-├── data/                     <- put the Kaggle CSV here (see data/PUT_DATASET_HERE.md)
-├── models/                   <- trained model is auto-saved here each run (.pkl)
-├── plots/                    <- charts are auto-saved here as .png
-├── requirements.txt
-└── README.md
-```
-
-**Why this structure?** Each module has exactly one job (single-responsibility
-principle): `data_loader` never touches the model, `model` never prints
-anything, `menu` never computes anything itself — it just calls the other
-modules and displays results. This is worth pointing out in your project
-write-up/viva; it's a big part of what separates a "script" from a
-"system".
-
-## Setup (VSCode)
-
-1. **Get the dataset.** Download the CSV from the Kaggle link above and
-   place it inside the `data/` folder (see `data/PUT_DATASET_HERE.md`).
-   No renaming needed — just make sure it's the only `.csv` in that folder.
-
-2. **Open the project folder in VSCode** (`File > Open Folder...`).
-
-3. **Create a virtual environment (recommended)** — open a terminal in
-   VSCode (`` Ctrl+` ``) and run:
-
-   ```bash
-   python -m venv .venv
-   # Windows:
-   .venv\Scripts\activate
-   # macOS/Linux:
-   source .venv/bin/activate
-   ```
-
-4. **Install dependencies:**
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-5. **Run it:**
-
-   ```bash
-   python bin/run.py
-   ```
-
-   or, in VSCode, open `bin/run.py` and click the ▶ **Run** button
-   (top-right), or press `F5`.
-
-On startup the program loads the CSV, cleans it, trains the Random Forest,
-prints the test accuracy, and saves the trained model to `models/` —
-*then* it shows you the menu above.
-
-## What each menu option does
-
-| # | Option | What happens |
-|---|--------|--------------|
-| 1 | Enter Wine Values Manually | Prompts you for every feature (shows the dataset's typical range as a hint), then predicts the quality with a confidence score and full probability breakdown. |
-| 2 | Select a Sample from Dataset | You type a row index; it shows that row's features, the actual quality, and the model's prediction side by side. |
-| 3 | Random Dataset Sample | Same as above but picks a random row for you. |
-| 4 | View Wine Quality Distribution | Prints class counts and saves/opens a bar chart (`plots/quality_distribution.png`). |
-| 5 | Test Model with Dataset Samples | Predicts N random rows at once (you choose N) and reports a table plus a batch accuracy percentage. |
-| 6 | Model Performance | Accuracy / precision / recall / F1 (weighted) plus the full `sklearn` classification report, with an optional confusion-matrix chart. |
-| 7 | Feature Importance | Ranks features by the Random Forest's built-in importance score, as a table and a bar chart. |
-| 8 | Dataset Statistics | Row/column counts, missing values, per-feature mean/std/min/max/quartiles, and each feature's correlation with quality, with an optional correlation heatmap. |
-| 9 | Search Dataset by Quality | Lists the available quality values, then shows every row matching the one you pick. |
-| 10 | Exit | Quits cleanly. |
-
-## Notes for your report / presentation
-
-- **Model:** `RandomForestClassifier` (scikit-learn), 300 trees. Chosen
-  because it handles a multi-class target well, needs little tuning, and
-  gives feature importances for free.
-- **Preprocessing:** duplicate rows dropped, missing numeric values filled
-  with the column median, features standardized with `StandardScaler`,
-  target label-encoded, 80/20 stratified train/test split (`config.py`
-  lets you change these in one place).
-- **Extensibility:** the dataset loader auto-detects the target column
-  name and feature columns, so if you download a slightly different
-  version of the dataset (or swap in the red/white UCI version) the code
-  still runs without edits.
-- **Every chart is also saved as a PNG** in `plots/`, so you can drop them
-  straight into your slides/report even if you only ran the program once.
 
 ---
 
-## Browser website (new; original CLI remains unchanged)
+## 📖 Project Overview
 
-A browser-based dashboard has been added on top of the same project modules. It keeps the original Random Forest model, preprocessing, data loader, predictor, statistics, and all nine working menu modules plus Exit. The existing terminal interface still runs as before.
+Wine quality assessment is traditionally performed by experts through sensory evaluation. However, physicochemical measurements can also provide useful information for analyzing wine quality.
 
-### Start the website in VS Code
+The **Wine Quality Prediction System** applies supervised Machine Learning techniques to predict wine quality based on measurable chemical properties.
 
-From the project root, open the VS Code terminal and run:
+The system uses a wine dataset containing 11 physicochemical input features and a quality score as the target variable.
+
+Two Logistic Regression approaches are implemented:
+
+1. **Binary Logistic Regression** — classifies wine into two quality categories.
+2. **Multinomial Logistic Regression** — predicts among multiple quality categories.
+
+The application provides an interactive command-line interface through which users can explore the dataset, inspect model performance, view feature importance, test sample records, and generate predictions for CSV files.
+
+The project demonstrates how Machine Learning concepts can be applied to a practical classification problem.
+
+## 🎯 Objectives
+
+The main objectives of this project are:
+
+- To understand and implement supervised Machine Learning.
+- To preprocess and analyze a real-world wine quality dataset.
+- To implement Binary and Multinomial Logistic Regression.
+- To predict wine quality using physicochemical characteristics.
+- To compare classification models using standard evaluation metrics.
+- To analyze the contribution of input features using model coefficients.
+- To support sample-based and batch predictions.
+- To build a modular, menu-driven Python application.
+- To save trained models and evaluation outputs for reuse.
+
+## 📊 Dataset Description
+
+The dataset contains physicochemical measurements of wine samples and their corresponding quality scores.
+
+### Input features
+
+| No. | Feature | Description |
+|---:|---|---|
+| 1 | Fixed Acidity | Acids that do not evaporate easily |
+| 2 | Volatile Acidity | Acids associated with volatile compounds |
+| 3 | Citric Acid | Citric acid content in the wine |
+| 4 | Residual Sugar | Sugar remaining after fermentation |
+| 5 | Chlorides | Chloride concentration |
+| 6 | Free Sulfur Dioxide | Free sulfur dioxide concentration |
+| 7 | Total Sulfur Dioxide | Total sulfur dioxide concentration |
+| 8 | Density | Density of the wine |
+| 9 | pH | Measure of acidity or alkalinity |
+| 10 | Sulphates | Sulphate concentration |
+| 11 | Alcohol | Alcohol content |
+
+**Target variable:** `quality`
+
+The original quality score is used to derive the classification target required by each model.
+
+The dataset is intended for educational and analytical use. Predictions represent patterns learned from the available data and are not a substitute for professional wine tasting or laboratory analysis.
+
+## 🤖 Machine Learning Algorithms
+
+### 1. Binary Logistic Regression
+
+Binary Logistic Regression is a supervised classification algorithm used when the target has two possible classes.
+
+It estimates the probability that a sample belongs to a particular class using the sigmoid function:
+
+\[
+\sigma(z)=\frac{1}{1+e^{-z}}
+\]
+
+The predicted probability is converted into a class using a decision threshold.
+
+In this project, wine quality is represented using two categories derived from the original quality scores. The configured preprocessing and classification rules determine the exact class boundary.
+
+### 2. Multinomial Logistic Regression
+
+Multinomial Logistic Regression extends Logistic Regression to problems containing more than two classes.
+
+It uses the softmax function to estimate probabilities across multiple categories:
+
+\[
+P(y=k\mid x)=
+\frac{e^{z_k}}{\sum_j e^{z_j}}
+\]
+
+The class with the highest predicted probability is selected as the model's prediction.
+
+In this project, the model predicts among multiple wine quality categories represented in the processed dataset.
+
+### Model Comparison
+
+Both models are evaluated on held-out test data to understand their classification performance.
+
+The comparison considers:
+
+- Accuracy
+- Precision
+- Recall
+- F1-score
+- Confusion matrix, where available
+- Model coefficients and feature contributions
+
+The actual performance depends on the dataset, preprocessing configuration, classification boundaries, and training results.
+
+## ✨ Key Features
+
+### Interactive Command-Line Interface
+
+The application provides a menu-driven interface for accessing its prediction, analysis, and evaluation functions.
+
+### Sample Predictions
+
+- Demonstrate predictions using held-out test samples.
+- Select available sample records.
+- Generate predictions using randomly selected records.
+- View actual and predicted quality information where available.
+
+### Batch CSV Prediction
+
+- Load a CSV file containing wine measurements.
+- Process multiple records in one operation.
+- Generate predictions for the input records.
+- Export the results to a CSV output file.
+
+The batch workflow uses the expected feature columns rather than requiring users to manually enter each physicochemical measurement.
+
+### Model Evaluation
+
+- View the performance of Binary Logistic Regression.
+- View the performance of Multinomial Logistic Regression.
+- Compare available evaluation metrics.
+- Inspect saved model evaluation results.
+
+### Feature Analysis
+
+- Examine model coefficients.
+- Explore the relative influence of physicochemical features.
+- Understand how learned coefficients relate to predicted classes.
+
+For Logistic Regression, coefficients describe learned relationships on the model's feature scale; they should not automatically be interpreted as causal effects.
+
+### Dataset Exploration
+
+- View dataset statistics.
+- Inspect quality distributions and available records.
+- Search for samples belonging to particular quality categories.
+- Explore relevant dataset information through the menu.
+
+## 🔄 Project Workflow
+
+The project follows this general Machine Learning pipeline:
+
+1. **Data loading:** Load the wine dataset into Python.
+2. **Data inspection:** Examine columns, data types, missing values, duplicates, and target distribution.
+3. **Preprocessing:** Prepare the feature matrix and classification targets.
+4. **Train-test split:** Separate data for model training and held-out evaluation.
+5. **Model training:** Train Binary and Multinomial Logistic Regression models.
+6. **Model evaluation:** Calculate relevant classification metrics.
+7. **Model persistence:** Save trained models for later use.
+8. **Prediction:** Apply the trained models to supported sample records or CSV inputs.
+9. **Result generation:** Display predictions and save applicable outputs.
+
+The project uses an 80:20 train-test split, stratification where applicable, and a fixed random state of `42` for reproducibility.
+
+## 🛠️ Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| Python 3 | Core programming language |
+| pandas | Data loading, cleaning, and manipulation |
+| NumPy | Numerical computation |
+| scikit-learn | Model training, preprocessing, and evaluation |
+| joblib | Saving and loading trained models |
+| Matplotlib / Seaborn | Visualization, if included in the implementation |
+| CSV and JSON | Storing prediction results and evaluation information |
+| Command-Line Interface | User interaction |
+
+## 📁 Project Structure
+
+The project is organized into modules to separate configuration, data preparation, model training, and prediction logic.
+
+```text
+wine-quality-ml/
+│
+├── data/
+│   └── winequality.csv
+│
+├── src/
+│   ├── __init__.py
+│   ├── config.py
+│   ├── data_loader.py
+│   ├── preprocessing.py
+│   └── predict.py
+│
+├── models/
+│   └── Saved model artifacts (.joblib)
+│
+├── outputs/
+│   └── predictions/
+│       └── batch_predictions.csv
+│
+├── run_project.py
+├── requirements.txt
+├── .gitignore
+└── README.md
+```
+
+**Note:** This is the logical project layout. Actual filenames, model artifact locations, and optional modules should match the files present in your repository.
+
+## ⚙️ Installation and Setup
+
+### Prerequisites
+
+Make sure you have installed:
+
+- Python 3.10 or a compatible version supported by your dependencies.
+- pip, the Python package installer.
+- Git, if you want to clone the repository.
+
+### Step 1: Clone the Repository
 
 ```bash
-# macOS / Linux
+git clone <YOUR_REPOSITORY_URL>
+cd wine-quality-ml
+```
+
+Replace `<YOUR_REPOSITORY_URL>` with your actual GitHub repository URL.
+
+If you have already downloaded the project, open a terminal in the project directory instead.
+
+### Step 2: Create a Virtual Environment
+
+```bash
 python3 -m venv .venv
-source .venv/bin/activate
-python3 -m pip install -r requirements.txt
-python3 web_app.py
 ```
 
-On Windows, activate with `.venv\\Scripts\\activate` and use `python web_app.py`.
+### Step 3: Activate the Environment
 
-Then open **http://127.0.0.1:5000** in your browser. The first start loads the dataset, runs the existing cleaning/train-test/model workflow, trains the Random Forest and saves the model bundle. Leave the terminal running while using the site. Press `Ctrl+C` in the terminal to stop it.
-
-### Run the original command-line program
-
-The original CLI is still available independently:
+**macOS / Linux**
 
 ```bash
-python3 bin/run.py
+source .venv/bin/activate
 ```
 
-### Website modules
+**Windows — Command Prompt**
 
-1. Enter Wine Values Manually
-2. Select a Sample from Dataset
-3. Random Dataset Sample
-4. View Wine Quality Distribution
-5. Test Model with Dataset Samples
-6. Model Performance
-7. Feature Importance
-8. Dataset Statistics
-9. Search Dataset by Quality
-10. Exit (CLI only; the website uses the dashboard instead)
+```bat
+.venv\Scripts\activate.bat
+```
 
-The website runs locally on your computer. It is not publicly hosted on the internet.
+**Windows — PowerShell**
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+### Step 4: Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+If the requirements file is missing, install the dependencies actually used by the project, such as:
+
+```bash
+pip install pandas numpy scikit-learn joblib
+```
+
+### Step 5: Verify the Dataset and Saved Models
+
+Ensure the dataset is available at the location configured in `src/config.py`.
+
+If the project expects pre-trained `.joblib` files, verify that the required model artifacts are present. Alternatively, train the models using the project training script.
+
+## ▶️ How to Run
+
+### Option 1: Launch the Prediction Interface
+
+From the project root directory, run:
+
+```bash
+python3 -m src.predict
+```
+
+This launches the interactive command-line interface, provided the configured dataset and required model artifacts are available.
+
+### Option 2: Train or Rebuild the Project
+
+```bash
+python3 run_project.py
+```
+
+Use this command to execute the training workflow implemented by the project script.
+
+If the script trains the models from scratch, it should prepare the data, fit the models, evaluate their performance, and save the resulting artifacts according to the configured paths.
+
+**Important:** Training and prediction are separate workflows. The prediction interface may require trained model files to exist before it can run successfully.
+
+## 🧭 Available Modules
+
+The command-line application is designed around the following functionality.
+
+| Module | Description |
+|---|---|
+| 1. Sample Prediction Demo | Demonstrates prediction on a held-out test sample |
+| 2. Select a Sample | Allows prediction on an available sample record |
+| 3. Random Sample Prediction | Selects a random record for prediction |
+| 4. Batch CSV Prediction | Processes multiple records from a CSV file |
+| 5. Model Comparison | Compares available model performance |
+| 6. Performance Metrics | Displays classification evaluation metrics |
+| 7. Feature Importance / Coefficients | Inspects learned Logistic Regression coefficients |
+| 8. Dataset Statistics | Displays descriptive statistics and dataset information |
+| 9. Quality-Based Search | Searches records using quality-related criteria |
+| 10. Exit | Closes the application |
+
+The exact menu labels and numbering depend on the implementation in `src/predict.py`.
+
+## 📈 Model Evaluation
+
+The models are evaluated using held-out test data.
+
+### Accuracy
+
+Measures the proportion of all predictions that are correct.
+
+\[
+Accuracy=\frac{TP+TN}{TP+TN+FP+FN}
+\]
+
+### Precision
+
+Measures how many positive predictions are correct.
+
+\[
+Precision=\frac{TP}{TP+FP}
+\]
+
+### Recall
+
+Measures how many actual positive samples are correctly identified.
+
+\[
+Recall=\frac{TP}{TP+FN}
+\]
+
+### F1-Score
+
+Combines precision and recall into a single metric.
+
+\[
+F1=2\cdot\frac{Precision\cdot Recall}{Precision+Recall}
+\]
+
+For multiclass classification, precision, recall, and F1-score may be reported using macro, micro, or weighted averaging. The averaging method should be stated alongside the results.
+
+### Performance Comparison
+
+The application can display the metrics recorded during model evaluation. Actual scores should be generated from the current saved evaluation results rather than estimated or manually assumed.
+
+| Metric | Binary Logistic Regression | Multinomial Logistic Regression |
+|---|---|---|
+| Accuracy | Generated by evaluation | Generated by evaluation |
+| Precision | Generated by evaluation | Generated by evaluation |
+| Recall | Generated by evaluation | Generated by evaluation |
+| F1-score | Generated by evaluation | Generated by evaluation |
+
+## 📂 Output Files
+
+The project can generate or maintain the following artifacts, depending on the configured workflow.
+
+- **Saved models:** Trained `.joblib` files used for prediction.
+- **Batch prediction results:** `outputs/predictions/batch_predictions.csv`
+- **Evaluation reports:** Saved metrics in JSON or CSV format, where configured.
+- **Coefficient reports:** Saved model coefficient information, where configured.
+
+Generated files should be stored in their configured output directories. Ensure those directories exist or are created by the application.
+
+## ⚠️ Limitations
+
+- Prediction quality depends on the dataset and its representation of real-world wine samples.
+- Classification results depend on how the original quality scores are converted into categories.
+- Logistic Regression may not capture complex nonlinear relationships between physicochemical features.
+- Performance on unseen data may differ from held-out test performance.
+- Model coefficients indicate learned statistical relationships and do not establish causation.
+- The system is intended for educational and experimental purposes rather than professional wine certification.
+
+## 🚀 Future Enhancements
+
+Potential improvements include:
+
+- Developing a web interface using Flask or Streamlit.
+- Adding Decision Tree, Random Forest, and other classification models.
+- Improving class imbalance handling.
+- Performing cross-validation and hyperparameter tuning.
+- Adding visualizations for feature distributions and model performance.
+- Providing a downloadable prediction report.
+- Using explainability tools to improve prediction transparency.
+- Packaging the application for easier installation and deployment.
+
+## 👩‍💻 Authors
+
+**Machine Learning Project — Wine Quality Prediction System**
+
+Developed as an academic project to explore supervised classification, Logistic Regression, data preprocessing, model evaluation, and practical Machine Learning implementation.
+
+**Contributors:** 
+Ch Sahasra Gayathri 
+Antony Nissy 
+
+## 📜 License
+
+This project is intended for educational and academic use. Add a license file, such as the MIT License, only if you intend to distribute the project under those terms.
+
+---
+
+⭐ **If you find this project useful, consider starring the repository!**
